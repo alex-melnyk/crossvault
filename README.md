@@ -15,7 +15,21 @@ This repository contains multiple packages that work together to provide a feder
 | [crossvault_macos](./crossvault_macos) | macOS implementation | 0.0.1 |
 | [crossvault_windows](./crossvault_windows) | Windows implementation | 0.0.1 |
 
+## ✨ Features
+
+- 🔐 **Secure Storage**: Platform-native secure storage mechanisms
+  - iOS/macOS: Keychain Services
+  - Android: EncryptedSharedPreferences
+  - Windows: Credential Manager
+- 🔄 **Cross-platform API**: Unified API across all platforms
+- 🎯 **Type-safe Configuration**: Platform-specific options with type safety
+- 🌐 **Keychain Sharing**: iOS/macOS support for sharing data between apps
+- ☁️ **iCloud Sync**: Optional iCloud Keychain synchronization (iOS/macOS)
+- 🏗️ **Federated Architecture**: Clean separation of platform implementations
+
 ## 🚀 Quick Start
+
+### Installation
 
 Add `crossvault` to your `pubspec.yaml`:
 
@@ -24,13 +38,82 @@ dependencies:
   crossvault: ^0.0.1
 ```
 
-Then use it in your code:
+### Basic Usage
 
 ```dart
 import 'package:crossvault/crossvault.dart';
 
 final crossvault = Crossvault();
-String? version = await crossvault.getPlatformVersion();
+
+// Store a value
+await crossvault.setValue('api_token', 'secret_value');
+
+// Retrieve a value
+final token = await crossvault.getValue('api_token');
+print('Token: $token');
+
+// Check if key exists
+final exists = await crossvault.existsKey('api_token');
+
+// Delete a value
+await crossvault.deleteValue('api_token');
+
+// Delete all values
+await crossvault.deleteAll();
+```
+
+### Global Configuration (Recommended)
+
+Initialize Crossvault once at app startup:
+
+```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // iOS/macOS - Private storage (no sharing)
+  // No configuration needed, just use it!
+  
+  // OR: iOS/macOS with Keychain Access Group (for sharing between apps)
+  await Crossvault.init(
+    options: IOSOptions(
+      accessGroup: 'io.alexmelnyk.crossvault.shared',  // Requires entitlements
+      synchronizable: true,  // Enable iCloud sync
+      accessibility: IOSAccessibility.afterFirstUnlock,
+    ),
+  );
+  
+  // OR: Android with custom preferences
+  await Crossvault.init(
+    options: AndroidOptions(
+      sharedPreferencesName: 'my_secure_prefs',
+      resetOnError: true,
+    ),
+  );
+  
+  runApp(MyApp());
+}
+
+// Now use Crossvault anywhere without specifying options
+final crossvault = Crossvault();
+await crossvault.setValue('key', 'value');  // Uses global config
+```
+
+### Per-Method Configuration
+
+Override global configuration for specific operations:
+
+```dart
+// Global config is used by default
+await crossvault.setValue('normal_key', 'value');
+
+// Override for specific operation
+await crossvault.setValue(
+  'temp_key',
+  'temp_value',
+  options: IOSOptions(
+    synchronizable: false,  // Don't sync this one
+  ),
+);
 ```
 
 ## 🏗️ Architecture

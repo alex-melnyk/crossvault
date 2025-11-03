@@ -6,5 +6,6 @@
 /// [UnimplementedError], which will prevent breaking changes.
 library crossvault_platform_interface;
 
+export 'src/crossvault_options.dart';
 export 'src/crossvault_platform.dart';
 export 'src/method_channel_crossvault.dart';

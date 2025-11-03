@@ -8,23 +8,28 @@ This repository contains multiple packages that work together to provide a feder
 
 | Package | Description | Version |
 |---------|-------------|---------|
-| [crossvault](./crossvault) | The main app-facing package | 0.0.1 |
-| [crossvault_platform_interface](./crossvault_platform_interface) | Common platform interface | 0.0.1 |
-| [crossvault_android](./crossvault_android) | Android implementation | 0.0.1 |
-| [crossvault_ios](./crossvault_ios) | iOS implementation | 0.0.1 |
-| [crossvault_macos](./crossvault_macos) | macOS implementation | 0.0.1 |
-| [crossvault_windows](./crossvault_windows) | Windows implementation | 0.0.1 |
+| [crossvault](./crossvault) | The main app-facing package | 1.0.0 |
+| [crossvault_platform_interface](./crossvault_platform_interface) | Common platform interface | 1.0.0 |
+| [crossvault_android](./crossvault_android) | Android implementation | 1.0.0 |
+| [crossvault_ios](./crossvault_ios) | iOS implementation | 1.0.0 |
+| [crossvault_macos](./crossvault_macos) | macOS implementation | 1.0.0 |
+| [crossvault_windows](./crossvault_windows) | Windows implementation | 1.0.0 |
 
 ## ✨ Features
 
 - 🔐 **Secure Storage**: Platform-native secure storage mechanisms
-  - iOS/macOS: Keychain Services
-  - Android: EncryptedSharedPreferences
-  - Windows: Credential Manager
+  - iOS/macOS: Keychain Services with Secure Enclave
+  - Android: EncryptedSharedPreferences with Keystore
+  - Windows: Credential Manager with DPAPI
+- 🛡️ **Hardware Security**: Optional hardware-backed encryption
+  - iOS/macOS: Secure Enclave (always)
+  - Android: TEE/SE/StrongBox (when available)
+  - Windows: TPM (Trusted Platform Module) - optional
 - 🔄 **Cross-platform API**: Unified API across all platforms
 - 🎯 **Type-safe Configuration**: Platform-specific options with type safety
 - 🌐 **Keychain Sharing**: iOS/macOS support for sharing data between apps
-- ☁️ **iCloud Sync**: Optional iCloud Keychain synchronization (iOS/macOS)
+- ☁️ **iCloud Sync**: Real-time iCloud Keychain synchronization (iOS/macOS)
+- 📦 **Auto Backup**: Automatic backup to Google Drive (Android)
 - 🏗️ **Federated Architecture**: Clean separation of platform implementations
 
 ## 🚀 Quick Start
@@ -35,7 +40,7 @@ Add `crossvault` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  crossvault: ^0.0.1
+  crossvault: ^1.0.0
 ```
 
 ### Basic Usage
@@ -189,6 +194,24 @@ Run the example app:
 cd crossvault/example
 flutter run
 ```
+
+## 📚 Setup Guides
+
+### Quick Reference Guides
+- [iOS/macOS iCloud Sync Quick Setup](IOS_MACOS_ICLOUD_SYNC_QUICK.md) - Real-time sync setup
+- [Android Auto Backup Quick Setup](ANDROID_SETUP_QUICK.md) - Backup configuration
+- [Windows Credential Manager Quick Setup](WINDOWS_SETUP_QUICK.md) - DPAPI and TPM setup
+
+### Detailed Platform Guides
+- [iOS iCloud Sync Setup](crossvault/example/ios/SETUP_ICLOUD_SYNC.md)
+- [macOS iCloud Sync Setup](crossvault/example/macos/SETUP_ICLOUD_SYNC.md)
+- [Android Auto Backup Setup](crossvault/example/android/SETUP_AUTO_BACKUP.md)
+
+### Platform READMEs
+- [iOS Plugin README](crossvault_ios/README.md)
+- [macOS Plugin README](crossvault_macos/README.md)
+- [Android Plugin README](crossvault_android/README.md)
+- [Windows Plugin README](crossvault_windows/README.md)
 
 ## 📝 License
 

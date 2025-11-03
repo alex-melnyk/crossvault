@@ -1,7 +1,6 @@
+import 'package:crossvault_platform_interface/src/method_channel_crossvault.dart';
+import 'package:crossvault_platform_interface/src/options/crossvault_options.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-import 'crossvault_options.dart';
-import 'method_channel_crossvault.dart';
 
 /// The interface that implementations of crossvault must implement.
 ///
@@ -63,7 +62,11 @@ abstract class CrossvaultPlatform extends PlatformInterface {
   /// [key] The key to store the value under.
   /// [value] The value to store.
   /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
-  Future<void> setValue(String key, String value, {CrossvaultOptions? options}) {
+  Future<void> setValue(
+    String key,
+    String value, {
+    CrossvaultOptions? options,
+  }) {
     throw UnimplementedError('setValue() has not been implemented.');
   }
 

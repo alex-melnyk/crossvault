@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup rules for Crossvault Android plugin.
+  
+  This configuration enables Auto Backup for encrypted data while excluding
+  sensitive files that should not be backed up.
+  
+  Auto Backup features:
+  - Automatic backup to Google Drive (up to 25MB per app)
+  - Encrypted in transit and at rest
+  - Restored automatically when app is reinstalled
+  - Requires user to be signed in with Google account
+-->
+<full-backup-content>
+    <!-- Include encrypted SharedPreferences for backup -->
+    <include domain="sharedpref" path="crossvault_secure_storage.xml"/>
+    
+    <!-- Exclude master key file (will be regenerated) -->
+    <exclude domain="sharedpref" path="_androidx_security_master_key_"/>
+    
+    <!-- Exclude any temporary or cache files -->
+    <exclude domain="file" path="cache/"/>
+</full-backup-content>

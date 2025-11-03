@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup rules for Crossvault Example App.
+  
+  This configuration enables Auto Backup for encrypted data stored by Crossvault.
+  
+  Auto Backup features:
+  - Automatic backup to Google Drive (up to 25MB per app)
+  - Encrypted in transit and at rest
+  - Restored automatically when app is reinstalled
+  - Requires user to be signed in with Google account
+  
+  Learn more: https://developer.android.com/guide/topics/data/autobackup
+-->
+<full-backup-content>
+    <!-- 
+      Include Crossvault encrypted SharedPreferences for backup.
+      This allows data to be restored after app reinstall.
+    -->
+    <include domain="sharedpref" path="crossvault_secure_storage.xml"/>
+    
+    <!-- 
+      Exclude the master key file.
+      The master key is stored in Android Keystore and will be regenerated
+      automatically when the app is restored.
+    -->
+    <exclude domain="sharedpref" path="_androidx_security_master_key_"/>
+    
+    <!-- 
+      Exclude any cache or temporary files.
+      These should not be backed up as they can be regenerated.
+    -->
+    <exclude domain="file" path="cache/"/>
+    <exclude domain="file" path="code_cache/"/>
+</full-backup-content>

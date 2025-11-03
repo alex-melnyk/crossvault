@@ -1,8 +1,6 @@
+import 'package:crossvault_platform_interface/crossvault_platform_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'crossvault_options.dart';
-import 'crossvault_platform.dart';
 
 /// An implementation of [CrossvaultPlatform] that uses method channels.
 class MethodChannelCrossvault extends CrossvaultPlatform {
@@ -12,7 +10,9 @@ class MethodChannelCrossvault extends CrossvaultPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version = await methodChannel.invokeMethod<String>(
+      'getPlatformVersion',
+    );
     return version;
   }
 
@@ -35,7 +35,11 @@ class MethodChannelCrossvault extends CrossvaultPlatform {
   }
 
   @override
-  Future<void> setValue(String key, String value, {CrossvaultOptions? options}) async {
+  Future<void> setValue(
+    String key,
+    String value, {
+    CrossvaultOptions? options,
+  }) async {
     await methodChannel.invokeMethod<void>(
       'setValue',
       _buildArguments(key: key, value: value, options: options),

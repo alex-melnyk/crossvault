@@ -73,22 +73,26 @@ void main() async {
   // iOS/macOS - Private storage (no sharing)
   // No configuration needed, just use it!
   
-  // OR: iOS/macOS with Keychain Access Group (for sharing between apps)
+  // OR: iOS/macOS with Keychain Access Group and iCloud sync
   await Crossvault.init(
     options: IOSOptions(
       accessGroup: 'io.alexmelnyk.crossvault.shared',  // Requires entitlements
-      synchronizable: true,  // Enable iCloud sync
+      synchronizable: true,  // Enable iCloud Keychain sync
       accessibility: IOSAccessibility.afterFirstUnlock,
     ),
   );
+  // Note: Configure iCloud capability in Xcode for sync
+  // See: IOS_MACOS_ICLOUD_SYNC_QUICK.md for setup instructions
   
-  // OR: Android with custom preferences
+  // OR: Android with custom preferences and Auto Backup
   await Crossvault.init(
     options: AndroidOptions(
       sharedPreferencesName: 'my_secure_prefs',
-      resetOnError: true,
+      resetOnError: true,  // Auto-reset on decryption error
     ),
   );
+  // Note: Configure Auto Backup in AndroidManifest.xml
+  // See: crossvault_android/README.md for setup instructions
   
   runApp(MyApp());
 }

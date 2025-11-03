@@ -55,12 +55,28 @@ flutter run -d windows
 3. Click "Set Value"
 4. Data is stored privately for this app only
 
-### Shared Mode (iOS/macOS)
+### Shared Mode (Platform-Specific)
+
+#### iOS/macOS - iCloud Keychain Sync
 1. Switch to "Shared" mode
-2. **Important**: Configure entitlements first (see below)
+2. **Important**: Configure iCloud capability first (see setup guides)
 3. Enter a key and value
 4. Click "Set Value"
-5. Data can be shared with other apps
+5. Data syncs in real-time to all devices with same Apple ID
+
+#### Android - Auto Backup
+1. Switch to "Shared" mode
+2. **Important**: Auto Backup is pre-configured in this example
+3. Enter a key and value
+4. Click "Set Value"
+5. Data backs up automatically to Google Drive (~every 24 hours)
+6. Restored automatically when app is reinstalled
+
+#### Windows - Credential Manager
+1. Switch to "Shared" mode
+2. Enter a key and value
+3. Click "Set Value"
+4. Data stored in Windows Credential Manager (local machine)
 
 ## Configuring Entitlements (for Shared Mode)
 

@@ -94,23 +94,52 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     }
   }
 
+  String _getModeDescription() {
+    if (_storageMode == StorageMode.privateMode) {
+      return '🔒 Private: Data stored only for this app';
+    }
+    
+    // Shared mode descriptions per platform
+    if (Platform.isIOS || Platform.isMacOS) {
+      return '🌐 Shared: iCloud Keychain sync (real-time, requires Apple ID)';
+    } else if (Platform.isAndroid) {
+      return '🌐 Shared: Auto Backup to Google Drive (~24h, requires Google account)';
+    } else if (Platform.isWindows) {
+      return '🌐 Shared: Windows Credential Manager (local machine)';
+    }
+    
+    return '🔒 Private mode';
+  }
+
   CrossvaultOptions? _getOptions() {
     if (_storageMode == StorageMode.privateMode) {
       return null; // Use default (private)
     }
     
-    // Shared mode with access group
+    // Shared mode with platform-specific options
     if (Platform.isIOS) {
       return IOSOptions(
         accessGroup: 'io.alexmelnyk.crossvault.shared',
-        synchronizable: true,
+        synchronizable: true,  // Enable iCloud Keychain sync
         accessibility: IOSAccessibility.afterFirstUnlock,
       );
     } else if (Platform.isMacOS) {
       return MacOSOptions(
         accessGroup: 'io.alexmelnyk.crossvault.shared',
-        synchronizable: true,
+        synchronizable: true,  // Enable iCloud Keychain sync
         accessibility: MacOSAccessibility.afterFirstUnlock,
+      );
+    } else if (Platform.isAndroid) {
+      return AndroidOptions(
+        sharedPreferencesName: 'crossvault_secure_storage',
+        resetOnError: true,  // Auto-reset on decryption error
+      );
+      // Note: Android uses Auto Backup (configured in AndroidManifest.xml)
+      // Backup happens automatically every ~24 hours to Google Drive
+    } else if (Platform.isWindows) {
+      return WindowsOptions(
+        prefix: 'crossvault',
+        persist: WindowsPersist.localMachine,
       );
     }
     
@@ -278,9 +307,7 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      _storageMode == StorageMode.privateMode
-                          ? '🔒 Private: Data stored only for this app'
-                          : '🌐 Shared: Data can be shared between apps (requires entitlements)',
+                      _getModeDescription(),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[600],

@@ -14,7 +14,10 @@ class CrossvaultAndroid extends CrossvaultPlatform {
   }
 
   @override
-  Future<bool> existsKey(String key, {CrossvaultOptions? options}) async {
+  Future<bool> existsKey(
+    String key, {
+    CrossvaultOptions? options,
+  }) async {
     final result = await methodChannel.invokeMethod<bool>(
       'existsKey',
       _buildArguments(key: key, options: options),
@@ -23,7 +26,10 @@ class CrossvaultAndroid extends CrossvaultPlatform {
   }
 
   @override
-  Future<String?> getValue(String key, {CrossvaultOptions? options}) async {
+  Future<String?> getValue(
+    String key, {
+    CrossvaultOptions? options,
+  }) async {
     final result = await methodChannel.invokeMethod<String>(
       'getValue',
       _buildArguments(key: key, options: options),
@@ -32,7 +38,11 @@ class CrossvaultAndroid extends CrossvaultPlatform {
   }
 
   @override
-  Future<void> setValue(String key, String value, {CrossvaultOptions? options}) async {
+  Future<void> setValue(
+    String key,
+    String value, {
+    CrossvaultOptions? options,
+  }) async {
     await methodChannel.invokeMethod<void>(
       'setValue',
       _buildArguments(key: key, value: value, options: options),
@@ -40,7 +50,10 @@ class CrossvaultAndroid extends CrossvaultPlatform {
   }
 
   @override
-  Future<void> deleteValue(String key, {CrossvaultOptions? options}) async {
+  Future<void> deleteValue(
+    String key, {
+    CrossvaultOptions? options,
+  }) async {
     await methodChannel.invokeMethod<void>(
       'deleteValue',
       _buildArguments(key: key, options: options),
@@ -48,7 +61,9 @@ class CrossvaultAndroid extends CrossvaultPlatform {
   }
 
   @override
-  Future<void> deleteAll({CrossvaultOptions? options}) async {
+  Future<void> deleteAll({
+    CrossvaultOptions? options,
+  }) async {
     await methodChannel.invokeMethod<void>(
       'deleteAll',
       _buildArguments(options: options),

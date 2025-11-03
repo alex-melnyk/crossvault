@@ -90,7 +90,7 @@ class Crossvault {
     if (_globalConfig == null) {
       return null;
     }
-    
+
     // Return platform-specific options from config
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       return _globalConfig!.ios;
@@ -101,17 +101,17 @@ class Crossvault {
     } else if (defaultTargetPlatform == TargetPlatform.windows) {
       return _globalConfig!.windows;
     }
-    
+
     return null;
   }
-  
+
   /// Merges global config with method-specific config.
   ///
   /// Method-specific config takes precedence over global config.
   CrossvaultOptions? _mergeConfigs(CrossvaultConfig? methodConfig) {
     // Get platform-specific options from global config
     final globalOptions = _getPlatformOptions();
-    
+
     // Get platform-specific options from method config
     CrossvaultOptions? methodOptions;
     if (methodConfig != null) {
@@ -125,16 +125,17 @@ class Crossvault {
         methodOptions = methodConfig.windows;
       }
     }
-    
+
     // Merge: globalOptions < methodOptions
     if (globalOptions == null) {
       return methodOptions;
     } else if (methodOptions == null) {
       return globalOptions;
     }
-    
+
     return globalOptions.merge(methodOptions);
   }
+
   /// Checks if a key exists in the secure storage.
   ///
   /// Returns `true` if the key exists, `false` otherwise.

@@ -1,8 +1,15 @@
 name: crossvault_platform_interface
-description: A common platform interface for the crossvault plugin.
-version: 0.0.1
+description: Platform interface for crossvault - a secure cross-platform vault plugin for storing sensitive data using native secure storage (Keychain, Keystore, Credential Manager).
+version: 1.0.0
 homepage: https://github.com/alex-melnyk/crossvault
 repository: https://github.com/alex-melnyk/crossvault/tree/main/crossvault_platform_interface
+issue_tracker: https://github.com/alex-melnyk/crossvault/issues
+
+topics:
+  - security
+  - encryption
+  - platform-interface
+  - secure-storage
 
 environment:
   sdk: ^3.9.2

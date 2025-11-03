@@ -1,8 +1,16 @@
 name: crossvault_ios
-description: iOS implementation of the crossvault plugin.
-version: 0.0.1
+description: iOS implementation of crossvault plugin using Keychain with iCloud sync support. Provides hardware-backed security via Secure Enclave.
+version: 1.0.0
 homepage: https://github.com/alex-melnyk/crossvault
 repository: https://github.com/alex-melnyk/crossvault/tree/main/crossvault_ios
+issue_tracker: https://github.com/alex-melnyk/crossvault/issues
+
+topics:
+  - ios
+  - keychain
+  - security
+  - icloud
+  - secure-enclave
 
 environment:
   sdk: ^3.9.2
@@ -19,8 +27,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  crossvault_platform_interface:
-    path: ../crossvault_platform_interface
+  crossvault_platform_interface: ^1.0.0
 
 dev_dependencies:
   flutter_test:

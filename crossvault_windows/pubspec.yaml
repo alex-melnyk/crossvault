@@ -1,8 +1,16 @@
 name: crossvault_windows
-description: Windows implementation of the crossvault plugin.
-version: 0.0.1
+description: Windows implementation of crossvault plugin using Credential Manager with DPAPI encryption and optional TPM (Trusted Platform Module) support.
+version: 1.0.0
 homepage: https://github.com/alex-melnyk/crossvault
 repository: https://github.com/alex-melnyk/crossvault/tree/main/crossvault_windows
+issue_tracker: https://github.com/alex-melnyk/crossvault/issues
+
+topics:
+  - windows
+  - credential-manager
+  - security
+  - tpm
+  - dpapi
 
 environment:
   sdk: ^3.9.2
@@ -19,8 +27,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  crossvault_platform_interface:
-    path: ../crossvault_platform_interface
+  crossvault_platform_interface: ^1.0.0
 
 dev_dependencies:
   flutter_test:

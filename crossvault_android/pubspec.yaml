@@ -1,8 +1,16 @@
 name: crossvault_android
-description: Android implementation of the crossvault plugin.
-version: 0.0.1
+description: Android implementation of crossvault plugin using EncryptedSharedPreferences and Android Keystore with Auto Backup support.
+version: 1.0.0
 homepage: https://github.com/alex-melnyk/crossvault
 repository: https://github.com/alex-melnyk/crossvault/tree/main/crossvault_android
+issue_tracker: https://github.com/alex-melnyk/crossvault/issues
+
+topics:
+  - android
+  - keystore
+  - security
+  - encryption
+  - backup
 
 environment:
   sdk: ^3.9.2
@@ -20,8 +28,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  crossvault_platform_interface:
-    path: ../crossvault_platform_interface
+  crossvault_platform_interface: ^1.0.0
 
 dev_dependencies:
   flutter_test:

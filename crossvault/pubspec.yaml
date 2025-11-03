@@ -12,11 +12,6 @@ topics:
   - keychain
   - keystore
   - secure-storage
-  - credentials
-  - vault
-  - biometric
-  - icloud
-  - tpm
 
 platforms:
   android:

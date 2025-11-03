@@ -231,8 +231,8 @@ WindowsOptions(useTPM: false)  // For portable data
 
 ## 📚 Full Documentation
 
-- [Windows Plugin README](crossvault_windows/README.md)
-- [Main Package README](crossvault/README.md)
+- [Windows Plugin README](../crossvault_windows/README.md)
+- [Main Package README](README.md)
 
 ## 🎯 Quick Comparison
 

@@ -61,8 +61,8 @@ flutter run
 
 ## 📚 Full Documentation
 
-- [Detailed Setup Guide](crossvault/example/android/SETUP_AUTO_BACKUP.md)
-- [Android Plugin README](crossvault_android/README.md)
+- [Detailed Setup Guide](example/android/SETUP_AUTO_BACKUP.md)
+- [Android Plugin README](../crossvault_android/README.md)
 
 ## 🔧 Custom Storage Name?
 

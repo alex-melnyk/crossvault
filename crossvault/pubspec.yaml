@@ -1,6 +1,6 @@
 name: crossvault
 description: Secure cross-platform vault for Flutter using native storage (iOS Keychain, Android Keystore, Windows Credential Manager). Supports iCloud sync, Auto Backup, and TPM.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/alex-melnyk/crossvault
 repository: https://github.com/alex-melnyk/crossvault/tree/main/crossvault
 issue_tracker: https://github.com/alex-melnyk/crossvault/issues

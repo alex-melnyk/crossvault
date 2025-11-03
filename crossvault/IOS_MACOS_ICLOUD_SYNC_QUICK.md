@@ -58,10 +58,10 @@ print(value); // Should print: test_value
 
 ## 📚 Full Documentation
 
-- [iOS Setup Guide](crossvault/example/ios/SETUP_ICLOUD_SYNC.md)
-- [macOS Setup Guide](crossvault/example/macos/SETUP_ICLOUD_SYNC.md)
-- [iOS Plugin README](crossvault_ios/README.md)
-- [macOS Plugin README](crossvault_macos/README.md)
+- [iOS Setup Guide](example/ios/SETUP_ICLOUD_SYNC.md)
+- [macOS Setup Guide](example/macos/SETUP_ICLOUD_SYNC.md)
+- [iOS Plugin README](../crossvault_ios/README.md)
+- [macOS Plugin README](../crossvault_macos/README.md)
 
 ## 🔧 Mixed Mode (Some Sync, Some Don't)
 

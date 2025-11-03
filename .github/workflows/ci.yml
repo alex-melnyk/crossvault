@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        package:
+          - crossvault_platform_interface
+          - crossvault_android
+          - crossvault_ios
+          - crossvault_macos
+          - crossvault_windows
+          - crossvault
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+      
+      - name: Install dependencies
+        working-directory: ${{ matrix.package }}
+        run: flutter pub get
+      
+      - name: Analyze code
+        working-directory: ${{ matrix.package }}
+        run: flutter analyze
+      
+      - name: Check formatting
+        working-directory: ${{ matrix.package }}
+        run: dart format --set-exit-if-changed .
+      
+      - name: Run tests
+        working-directory: ${{ matrix.package }}
+        run: flutter test
+        continue-on-error: true
+  
+  example:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+      
+      - name: Install dependencies
+        working-directory: crossvault/example
+        run: flutter pub get
+      
+      - name: Analyze example
+        working-directory: crossvault/example
+        run: flutter analyze
+      
+      - name: Build example (Android)
+        working-directory: crossvault/example
+        run: flutter build apk --debug

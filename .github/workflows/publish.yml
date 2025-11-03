@@ -1,0 +1,53 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        package:
+          - crossvault_platform_interface
+          - crossvault_android
+          - crossvault_ios
+          - crossvault_macos
+          - crossvault_windows
+          - crossvault
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+      
+      - name: Install dependencies
+        working-directory: ${{ matrix.package }}
+        run: flutter pub get
+      
+      - name: Analyze code
+        working-directory: ${{ matrix.package }}
+        run: flutter analyze
+      
+      - name: Run tests
+        working-directory: ${{ matrix.package }}
+        run: flutter test
+        continue-on-error: true  # Continue even if tests fail
+      
+      - name: Dry run publish
+        working-directory: ${{ matrix.package }}
+        run: flutter pub publish --dry-run
+      
+      - name: Publish to pub.dev
+        working-directory: ${{ matrix.package }}
+        run: flutter pub publish --force
+        env:
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}

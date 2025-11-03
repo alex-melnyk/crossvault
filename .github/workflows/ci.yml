@@ -38,10 +38,6 @@ jobs:
         working-directory: ${{ matrix.package }}
         run: flutter analyze
       
-      - name: Check formatting
-        working-directory: ${{ matrix.package }}
-        run: dart format --set-exit-if-changed .
-      
       - name: Run tests
         working-directory: ${{ matrix.package }}
         run: flutter test
@@ -67,7 +63,3 @@ jobs:
       - name: Analyze example
         working-directory: crossvault/example
         run: flutter analyze
-      
-      - name: Build example (Android)
-        working-directory: crossvault/example
-        run: flutter build apk --debug

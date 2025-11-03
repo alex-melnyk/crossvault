@@ -13,7 +13,7 @@ topics:
   - secure-enclave
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.6.0
   flutter: '>=3.3.0'
 
 flutter:

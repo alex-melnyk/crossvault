@@ -167,7 +167,7 @@
       "name": "crossvault_platform_interface",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.6"
     }
   ],
   "generator": "pub",

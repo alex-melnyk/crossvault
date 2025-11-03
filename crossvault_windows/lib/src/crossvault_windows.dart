@@ -12,10 +12,4 @@ class CrossvaultWindows extends CrossvaultPlatform {
   static void registerWith() {
     CrossvaultPlatform.instance = CrossvaultWindows();
   }
-
-  @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
-  }
 }

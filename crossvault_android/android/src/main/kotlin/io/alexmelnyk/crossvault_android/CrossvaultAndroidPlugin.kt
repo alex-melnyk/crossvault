@@ -31,9 +31,6 @@ class CrossvaultAndroidPlugin : FlutterPlugin, MethodCallHandler {
     override fun onMethodCall(call: MethodCall, result: Result) {
         try {
             when (call.method) {
-                "getPlatformVersion" -> {
-                    result.success("Android ${android.os.Build.VERSION.RELEASE}")
-                }
                 "existsKey" -> {
                     val key = call.argument<String>("key")
                     if (key == null) {

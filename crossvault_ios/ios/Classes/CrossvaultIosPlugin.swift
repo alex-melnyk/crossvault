@@ -15,9 +15,6 @@ public class CrossvaultIosPlugin: NSObject, FlutterPlugin {
     let args = call.arguments as? [String: Any]
     
     switch call.method {
-    case "getPlatformVersion":
-      result("iOS " + UIDevice.current.systemVersion)
-      
     case "existsKey":
       guard let key = args?["key"] as? String else {
         result(FlutterError(code: "INVALID_ARGUMENT", message: "Key is required", details: nil))

@@ -24,17 +24,9 @@ abstract class CrossvaultPlatform extends PlatformInterface {
 
   /// Platform-specific implementations should set this with their own
   /// platform-specific class that extends [CrossvaultPlatform] when
-  /// they register themselves.
   static set instance(CrossvaultPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
-  }
-
-  /// Returns the platform version.
-  ///
-  /// This is a demo method and should be replaced with actual vault functionality.
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('getPlatformVersion() has not been implemented.');
   }
 
   /// Checks if a key exists in the secure storage.

@@ -7,18 +7,31 @@ import 'package:crossvault/crossvault.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Example: Initialize with global configuration (optional)
-  // Uncomment to test with access groups (requires entitlements setup)
+  // Example: Initialize with global configuration for all platforms (optional)
+  // Uncomment to test with platform-specific settings
   /*
-  if (Platform.isIOS || Platform.isMacOS) {
-    await Crossvault.init(
-      options: IOSOptions(
+  await Crossvault.init(
+    config: CrossvaultConfig(
+      ios: IOSOptions(
         accessGroup: 'io.alexmelnyk.crossvault.shared',
         synchronizable: true,
         accessibility: IOSAccessibility.afterFirstUnlock,
       ),
-    );
-  }
+      macos: MacOSOptions(
+        accessGroup: 'io.alexmelnyk.crossvault.shared',
+        synchronizable: true,
+        accessibility: MacOSAccessibility.afterFirstUnlock,
+      ),
+      android: AndroidOptions(
+        sharedPreferencesName: 'crossvault_secure_storage',
+        resetOnError: true,
+      ),
+      windows: WindowsOptions(
+        prefix: 'crossvault',
+        persist: WindowsPersist.localMachine,
+      ),
+    ),
+  );
   */
   
   runApp(const MyApp());
@@ -72,8 +85,21 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
 
   Future<void> _initPlatformState() async {
     try {
-      final version = await _crossvault.getPlatformVersion() ?? 'Unknown';
-      setState(() => _platformVersion = version);
+      // Detect platform
+      if (Platform.isIOS) {
+        _platformVersion = 'iOS';
+      } else if (Platform.isAndroid) {
+        _platformVersion = 'Android';
+      } else if (Platform.isMacOS) {
+        _platformVersion = 'macOS';
+      } else if (Platform.isWindows) {
+        _platformVersion = 'Windows';
+      } else if (Platform.isLinux) {
+        _platformVersion = 'Linux';
+      } else {
+        _platformVersion = 'Unknown';
+      }
+      setState(() {});
     } catch (e) {
       setState(() => _platformVersion = 'Error: $e');
     }
@@ -111,39 +137,34 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     return '🔒 Private mode';
   }
 
-  CrossvaultOptions? _getOptions() {
+  CrossvaultConfig? _getConfig() {
     if (_storageMode == StorageMode.privateMode) {
       return null; // Use default (private)
     }
     
-    // Shared mode with platform-specific options
-    if (Platform.isIOS) {
-      return IOSOptions(
+    // Shared mode with platform-specific configuration
+    return CrossvaultConfig(
+      ios: IOSOptions(
         accessGroup: 'io.alexmelnyk.crossvault.shared',
         synchronizable: true,  // Enable iCloud Keychain sync
         accessibility: IOSAccessibility.afterFirstUnlock,
-      );
-    } else if (Platform.isMacOS) {
-      return MacOSOptions(
+      ),
+      macos: MacOSOptions(
         accessGroup: 'io.alexmelnyk.crossvault.shared',
         synchronizable: true,  // Enable iCloud Keychain sync
         accessibility: MacOSAccessibility.afterFirstUnlock,
-      );
-    } else if (Platform.isAndroid) {
-      return AndroidOptions(
+      ),
+      android: AndroidOptions(
         sharedPreferencesName: 'crossvault_secure_storage',
         resetOnError: true,  // Auto-reset on decryption error
-      );
+      ),
       // Note: Android uses Auto Backup (configured in AndroidManifest.xml)
       // Backup happens automatically every ~24 hours to Google Drive
-    } else if (Platform.isWindows) {
-      return WindowsOptions(
+      windows: WindowsOptions(
         prefix: 'crossvault',
         persist: WindowsPersist.localMachine,
-      );
-    }
-    
-    return null;
+      ),
+    );
   }
 
   Future<void> _setValue() async {
@@ -156,7 +177,7 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     }
 
     await _executeOperation(() async {
-      await _crossvault.setValue(key, value, options: _getOptions());
+      await _crossvault.setValue(key, value, config: _getConfig());
       setState(() => _result = 'Success: Value saved for key "$key"');
     });
   }
@@ -170,7 +191,7 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     }
 
     await _executeOperation(() async {
-      final value = await _crossvault.getValue(key, options: _getOptions());
+      final value = await _crossvault.getValue(key, config: _getConfig());
       setState(() {
         if (value != null) {
           _result = 'Value: $value';
@@ -191,7 +212,7 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     }
 
     await _executeOperation(() async {
-      final exists = await _crossvault.existsKey(key, options: _getOptions());
+      final exists = await _crossvault.existsKey(key, config: _getConfig());
       setState(() => _result = 'Key "$key" ${exists ? "exists" : "does not exist"}');
     });
   }
@@ -205,7 +226,7 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     }
 
     await _executeOperation(() async {
-      await _crossvault.deleteValue(key, options: _getOptions());
+      await _crossvault.deleteValue(key, config: _getConfig());
       setState(() => _result = 'Success: Key "$key" deleted');
       _valueController.clear();
     });
@@ -233,7 +254,7 @@ class _CrossvaultDemoState extends State<CrossvaultDemo> {
     if (confirmed != true) return;
 
     await _executeOperation(() async {
-      await _crossvault.deleteAll(options: _getOptions());
+      await _crossvault.deleteAll(config: _getConfig());
       setState(() => _result = 'Success: All values deleted');
       _keyController.clear();
       _valueController.clear();

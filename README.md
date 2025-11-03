@@ -64,43 +64,45 @@ await crossvault.deleteAll();
 
 ### Global Configuration (Recommended)
 
-Initialize Crossvault once at app startup:
+Initialize Crossvault once at app startup with settings for all platforms:
 
 ```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // iOS/macOS - Private storage (no sharing)
-  // No configuration needed, just use it!
-  
-  // OR: iOS/macOS with Keychain Access Group and iCloud sync
+  // Configure all platforms at once
   await Crossvault.init(
-    options: IOSOptions(
-      accessGroup: 'io.alexmelnyk.crossvault.shared',  // Requires entitlements
-      synchronizable: true,  // Enable iCloud Keychain sync
-      accessibility: IOSAccessibility.afterFirstUnlock,
+    config: CrossvaultConfig(
+      ios: IOSOptions(
+        accessGroup: 'io.alexmelnyk.crossvault.shared',
+        synchronizable: true,  // Enable iCloud Keychain sync
+        accessibility: IOSAccessibility.afterFirstUnlock,
+      ),
+      macos: MacOSOptions(
+        accessGroup: 'io.alexmelnyk.crossvault.shared',
+        synchronizable: true,  // Enable iCloud Keychain sync
+        accessibility: MacOSAccessibility.afterFirstUnlock,
+      ),
+      android: AndroidOptions(
+        sharedPreferencesName: 'my_secure_prefs',
+        resetOnError: true,  // Auto-reset on decryption error
+      ),
+      windows: WindowsOptions(
+        prefix: 'crossvault',
+        persist: WindowsPersist.localMachine,
+      ),
     ),
   );
-  // Note: Configure iCloud capability in Xcode for sync
-  // See: IOS_MACOS_ICLOUD_SYNC_QUICK.md for setup instructions
-  
-  // OR: Android with custom preferences and Auto Backup
-  await Crossvault.init(
-    options: AndroidOptions(
-      sharedPreferencesName: 'my_secure_prefs',
-      resetOnError: true,  // Auto-reset on decryption error
-    ),
-  );
-  // Note: Configure Auto Backup in AndroidManifest.xml
-  // See: crossvault_android/README.md for setup instructions
   
   runApp(MyApp());
 }
 
-// Now use Crossvault anywhere without specifying options
+// Now use Crossvault anywhere - it automatically uses the right platform config
 final crossvault = Crossvault();
-await crossvault.setValue('key', 'value');  // Uses global config
+await crossvault.setValue('key', 'value');  // Uses platform-specific config
 ```
+
+**Note:** Configure iCloud for iOS/macOS and Auto Backup for Android. See setup guides below.
 
 ### Per-Method Configuration
 

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 export 'package:crossvault_platform_interface/crossvault_platform_interface.dart'
     show
         CrossvaultOptions,
+        CrossvaultConfig,
         IOSOptions,
         MacOSOptions,
         AndroidOptions,
@@ -51,70 +52,95 @@ export 'package:crossvault_platform_interface/crossvault_platform_interface.dart
 /// ```
 class Crossvault {
   /// Global configuration for all Crossvault operations.
-  @visibleForTesting
-  static CrossvaultOptions? _globalOptions;
+  static CrossvaultConfig? _globalConfig;
 
   /// Initializes Crossvault with global configuration.
   ///
   /// This configuration will be used for all operations unless overridden
   /// in individual method calls.
   ///
-  /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
+  /// [config] Configuration with options for all platforms.
   ///
   /// Example:
   /// ```dart
-  /// // iOS with access group
   /// await Crossvault.init(
-  ///   options: IOSOptions(
-  ///     accessGroup: 'io.alexmelnyk.crossvault.shared',
-  ///     synchronizable: true,
-  ///     accessibility: IOSAccessibility.whenUnlocked,
-  ///   ),
-  /// );
-  ///
-  /// // Android with custom preferences name
-  /// await Crossvault.init(
-  ///   options: AndroidOptions(
-  ///     sharedPreferencesName: 'my_secure_prefs',
-  ///     resetOnError: true,
+  ///   config: CrossvaultConfig(
+  ///     ios: IOSOptions(
+  ///       accessGroup: 'io.alexmelnyk.crossvault.shared',
+  ///       synchronizable: true,
+  ///     ),
+  ///     android: AndroidOptions(
+  ///       sharedPreferencesName: 'my_secure_prefs',
+  ///       resetOnError: true,
+  ///     ),
   ///   ),
   /// );
   /// ```
-  static Future<void> init({CrossvaultOptions? options}) async {
-    _globalOptions = options;
+  static Future<void> init({CrossvaultConfig? config}) async {
+    _globalConfig = config;
   }
 
   /// Resets the global configuration.
   static void reset() {
-    _globalOptions = null;
+    _globalConfig = null;
   }
 
-  /// Merges global options with method-specific options.
+  /// Gets the appropriate platform options from config.
+  CrossvaultOptions? _getPlatformOptions() {
+    if (_globalConfig == null) {
+      return null;
+    }
+    
+    // Return platform-specific options from config
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return _globalConfig!.ios;
+    } else if (defaultTargetPlatform == TargetPlatform.macOS) {
+      return _globalConfig!.macos;
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
+      return _globalConfig!.android;
+    } else if (defaultTargetPlatform == TargetPlatform.windows) {
+      return _globalConfig!.windows;
+    }
+    
+    return null;
+  }
+  
+  /// Merges global config with method-specific config.
   ///
-  /// Method-specific options take precedence over global options.
-  @visibleForTesting
-  CrossvaultOptions? _mergeOptions(CrossvaultOptions? methodOptions) {
-    if (_globalOptions == null) {
+  /// Method-specific config takes precedence over global config.
+  CrossvaultOptions? _mergeConfigs(CrossvaultConfig? methodConfig) {
+    // Get platform-specific options from global config
+    final globalOptions = _getPlatformOptions();
+    
+    // Get platform-specific options from method config
+    CrossvaultOptions? methodOptions;
+    if (methodConfig != null) {
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        methodOptions = methodConfig.ios;
+      } else if (defaultTargetPlatform == TargetPlatform.macOS) {
+        methodOptions = methodConfig.macos;
+      } else if (defaultTargetPlatform == TargetPlatform.android) {
+        methodOptions = methodConfig.android;
+      } else if (defaultTargetPlatform == TargetPlatform.windows) {
+        methodOptions = methodConfig.windows;
+      }
+    }
+    
+    // Merge: globalOptions < methodOptions
+    if (globalOptions == null) {
       return methodOptions;
     } else if (methodOptions == null) {
-      return _globalOptions;
+      return globalOptions;
     }
-
-    return _globalOptions!.merge(methodOptions);
+    
+    return globalOptions.merge(methodOptions);
   }
-  /// Returns the platform version.
-  ///
-  /// This is a demo method and will be removed in future versions.
-  Future<String?> getPlatformVersion() {
-    return CrossvaultPlatform.instance.getPlatformVersion();
-  }
-
   /// Checks if a key exists in the secure storage.
   ///
   /// Returns `true` if the key exists, `false` otherwise.
   ///
   /// [key] The key to check for existence.
-  /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
+  /// [config] Platform-specific configuration.
   ///
   /// Example:
   /// ```dart
@@ -124,19 +150,21 @@ class Crossvault {
   /// }
   /// ```
   ///
-  /// Example with iOS options:
+  /// Example with config override:
   /// ```dart
   /// final exists = await crossvault.existsKey(
   ///   'api_token',
-  ///   options: IOSOptions(
-  ///     accessGroup: 'io.alexmelnyk.crossvault.shared',
+  ///   config: CrossvaultConfig(
+  ///     ios: IOSOptions(
+  ///       accessGroup: 'io.alexmelnyk.crossvault.shared',
+  ///     ),
   ///   ),
   /// );
   /// ```
-  Future<bool> existsKey(String key, {CrossvaultOptions? options}) {
+  Future<bool> existsKey(String key, {CrossvaultConfig? config}) {
     return CrossvaultPlatform.instance.existsKey(
       key,
-      options: _mergeOptions(options),
+      options: _mergeConfigs(config),
     );
   }
 
@@ -145,7 +173,7 @@ class Crossvault {
   /// Returns the value associated with the key, or `null` if not found.
   ///
   /// [key] The key to retrieve the value for.
-  /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
+  /// [config] Platform-specific configuration.
   ///
   /// Example:
   /// ```dart
@@ -154,10 +182,10 @@ class Crossvault {
   ///   print('Token: $token');
   /// }
   /// ```
-  Future<String?> getValue(String key, {CrossvaultOptions? options}) {
+  Future<String?> getValue(String key, {CrossvaultConfig? config}) {
     return CrossvaultPlatform.instance.getValue(
       key,
-      options: _mergeOptions(options),
+      options: _mergeConfigs(config),
     );
   }
 
@@ -165,63 +193,56 @@ class Crossvault {
   ///
   /// [key] The key to store the value under.
   /// [value] The value to store.
-  /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
+  /// [config] Platform-specific configuration.
   ///
   /// Example:
   /// ```dart
   /// await crossvault.setValue('api_token', 'secret_value');
   /// ```
   ///
-  /// Example with iOS options (access group + iCloud sync):
+  /// Example with config override:
   /// ```dart
   /// await crossvault.setValue(
   ///   'api_token',
   ///   'secret_value',
-  ///   options: IOSOptions(
-  ///     accessGroup: 'io.alexmelnyk.crossvault.shared',
-  ///     synchronizable: true,
-  ///     accessibility: IOSAccessibility.whenUnlocked,
+  ///   config: CrossvaultConfig(
+  ///     ios: IOSOptions(
+  ///       accessGroup: 'io.alexmelnyk.crossvault.shared',
+  ///       synchronizable: true,
+  ///     ),
+  ///     android: AndroidOptions(
+  ///       sharedPreferencesName: 'my_secure_prefs',
+  ///     ),
   ///   ),
   /// );
   /// ```
-  ///
-  /// Example with Android options:
-  /// ```dart
-  /// await crossvault.setValue(
-  ///   'api_token',
-  ///   'secret_value',
-  ///   options: AndroidOptions(
-  ///     sharedPreferencesName: 'my_secure_prefs',
-  ///   ),
-  /// );
-  /// ```
-  Future<void> setValue(String key, String value, {CrossvaultOptions? options}) {
+  Future<void> setValue(String key, String value, {CrossvaultConfig? config}) {
     return CrossvaultPlatform.instance.setValue(
       key,
       value,
-      options: _mergeOptions(options),
+      options: _mergeConfigs(config),
     );
   }
 
   /// Deletes a value from the secure storage.
   ///
   /// [key] The key to delete.
-  /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
+  /// [config] Platform-specific configuration.
   ///
   /// Example:
   /// ```dart
   /// await crossvault.deleteValue('api_token');
   /// ```
-  Future<void> deleteValue(String key, {CrossvaultOptions? options}) {
+  Future<void> deleteValue(String key, {CrossvaultConfig? config}) {
     return CrossvaultPlatform.instance.deleteValue(
       key,
-      options: _mergeOptions(options),
+      options: _mergeConfigs(config),
     );
   }
 
   /// Deletes all values from the secure storage.
   ///
-  /// [options] Platform-specific options (IOSOptions, MacOSOptions, AndroidOptions, WindowsOptions).
+  /// [config] Platform-specific configuration.
   ///
   /// **Warning**: This will delete all stored values. Use with caution.
   ///
@@ -229,9 +250,9 @@ class Crossvault {
   /// ```dart
   /// await crossvault.deleteAll();
   /// ```
-  Future<void> deleteAll({CrossvaultOptions? options}) {
+  Future<void> deleteAll({CrossvaultConfig? config}) {
     return CrossvaultPlatform.instance.deleteAll(
-      options: _mergeOptions(options),
+      options: _mergeConfigs(config),
     );
   }
 }

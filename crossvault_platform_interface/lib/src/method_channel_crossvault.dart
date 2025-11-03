@@ -9,14 +9,6 @@ class MethodChannelCrossvault extends CrossvaultPlatform {
   final methodChannel = const MethodChannel('crossvault');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>(
-      'getPlatformVersion',
-    );
-    return version;
-  }
-
-  @override
   Future<bool> existsKey(String key, {CrossvaultOptions? options}) async {
     final result = await methodChannel.invokeMethod<bool>(
       'existsKey',

@@ -15,9 +15,6 @@ public class CrossvaultMacosPlugin: NSObject, FlutterPlugin {
     let args = call.arguments as? [String: Any]
     
     switch call.method {
-    case "getPlatformVersion":
-      result("macOS " + ProcessInfo.processInfo.operatingSystemVersionString)
-      
     case "existsKey":
       guard let key = args?["key"] as? String else {
         result(FlutterError(code: "INVALID_ARGUMENT", message: "Key is required", details: nil))

@@ -1,6 +1,7 @@
 export 'package:crossvault_platform_interface/src/crossvault_platform.dart';
 export 'package:crossvault_platform_interface/src/method_channel_crossvault.dart';
 export 'package:crossvault_platform_interface/src/options/android_options.dart';
+export 'package:crossvault_platform_interface/src/options/crossvault_config.dart';
 export 'package:crossvault_platform_interface/src/options/crossvault_options.dart';
 export 'package:crossvault_platform_interface/src/options/ios_accessibility.dart';
 export 'package:crossvault_platform_interface/src/options/ios_options.dart';

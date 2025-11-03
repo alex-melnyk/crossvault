@@ -8,9 +8,6 @@ class MockCrossvaultPlatform
     implements CrossvaultPlatform {
 
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-
-  @override
   Future<bool> existsKey(String key, {CrossvaultOptions? options}) => Future.value(true);
 
   @override
@@ -33,14 +30,6 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelCrossvault>());
   });
 
-  test('getPlatformVersion', () async {
-    Crossvault crossvaultPlugin = Crossvault();
-    MockCrossvaultPlatform fakePlatform = MockCrossvaultPlatform();
-    CrossvaultPlatform.instance = fakePlatform;
-
-    expect(await crossvaultPlugin.getPlatformVersion(), '42');
-  });
-
   group('Global configuration', () {
     late MockCrossvaultPlatform fakePlatform;
 
@@ -57,9 +46,11 @@ void main() {
     test('init and reset work correctly', () async {
       // Init should not throw
       await Crossvault.init(
-        options: IOSOptions(
-          accessGroup: 'test.group',
-          synchronizable: true,
+        config: CrossvaultConfig(
+          ios: IOSOptions(
+            accessGroup: 'test.group',
+            synchronizable: true,
+          ),
         ),
       );
 
@@ -69,7 +60,9 @@ void main() {
 
     test('can call methods after init', () async {
       await Crossvault.init(
-        options: IOSOptions(accessGroup: 'test.group'),
+        config: CrossvaultConfig(
+          ios: IOSOptions(accessGroup: 'test.group'),
+        ),
       );
 
       final crossvault = Crossvault();
@@ -80,11 +73,13 @@ void main() {
       expect(value, 'test_value');
     });
 
-    test('can override global options in method call', () async {
+    test('can override global config in method call', () async {
       await Crossvault.init(
-        options: IOSOptions(
-          accessGroup: 'global.group',
-          synchronizable: false,
+        config: CrossvaultConfig(
+          ios: IOSOptions(
+            accessGroup: 'global.group',
+            synchronizable: false,
+          ),
         ),
       );
 
@@ -94,9 +89,11 @@ void main() {
       await crossvault.setValue(
         'key',
         'value',
-        options: IOSOptions(
-          accessGroup: 'override.group',
-          synchronizable: true,
+        config: CrossvaultConfig(
+          ios: IOSOptions(
+            accessGroup: 'override.group',
+            synchronizable: true,
+          ),
         ),
       );
     });
@@ -116,9 +113,8 @@ void main() {
         accessibility: IOSAccessibility.whenUnlocked,
       );
 
-      final merged = base.merge(override);
-      expect(merged, isA<IOSOptions>());
-      final iosOptions = merged as IOSOptions;
+      final iosOptions = base.merge(override);
+      expect(iosOptions, isA<IOSOptions>());
       expect(iosOptions.accessGroup, 'override.group');
       expect(iosOptions.synchronizable, true);
       expect(iosOptions.accessibility, IOSAccessibility.whenUnlocked);

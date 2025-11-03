@@ -1,6 +1,17 @@
-# Crossvault
+<div align="center">
+  <img src="logo.svg" alt="Crossvault Logo" width="200"/>
+  
+  # Crossvault
+  
+  **Secure cross-platform vault for Flutter**
+  
+  [![pub package](https://img.shields.io/pub/v/crossvault.svg)](https://pub.dev/packages/crossvault)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+  
+  A unified API for secure storage across Android, iOS, macOS, and Windows.
+</div>
 
-A secure cross-platform vault plugin for Flutter that provides a unified API for secure storage across Android, iOS, macOS, and Windows.
+---
 
 ## 📦 Packages
 

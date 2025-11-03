@@ -48,6 +48,41 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  crossvault_android:
+    dependency: transitive
+    description:
+      path: "../../crossvault_android"
+      relative: true
+    source: path
+    version: "0.0.1"
+  crossvault_ios:
+    dependency: transitive
+    description:
+      path: "../../crossvault_ios"
+      relative: true
+    source: path
+    version: "0.0.1"
+  crossvault_macos:
+    dependency: transitive
+    description:
+      path: "../../crossvault_macos"
+      relative: true
+    source: path
+    version: "0.0.1"
+  crossvault_platform_interface:
+    dependency: transitive
+    description:
+      path: "../../crossvault_platform_interface"
+      relative: true
+    source: path
+    version: "0.0.1"
+  crossvault_windows:
+    dependency: transitive
+    description:
+      path: "../../crossvault_windows"
+      relative: true
+    source: path
+    version: "0.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:

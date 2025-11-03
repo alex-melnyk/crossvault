@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:crossvault/crossvault.dart';
-import 'package:crossvault/crossvault_platform_interface.dart';
-import 'package:crossvault/crossvault_method_channel.dart';
+import 'package:crossvault_platform_interface/crossvault_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockCrossvaultPlatform

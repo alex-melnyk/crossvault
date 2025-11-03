@@ -1,0 +1,28 @@
+name: crossvault_macos
+description: macOS implementation of the crossvault plugin.
+version: 0.0.1
+homepage: https://github.com/alex-melnyk/crossvault
+repository: https://github.com/alex-melnyk/crossvault/tree/main/crossvault_macos
+
+environment:
+  sdk: ^3.9.2
+  flutter: '>=3.3.0'
+
+flutter:
+  plugin:
+    implements: crossvault
+    platforms:
+      macos:
+        pluginClass: CrossvaultMacosPlugin
+        dartPluginClass: CrossvaultMacos
+
+dependencies:
+  flutter:
+    sdk: flutter
+  crossvault_platform_interface:
+    path: ../crossvault_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0

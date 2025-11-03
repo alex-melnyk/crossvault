@@ -9,6 +9,12 @@
       <excludeFolder url="file://$MODULE_DIR$/crossvault/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault/example/macos/Flutter/ephemeral/.symlinks/plugins/crossvault_macos/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault/example/macos/Flutter/ephemeral/.symlinks/plugins/crossvault_macos/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault/example/macos/Flutter/ephemeral/.symlinks/plugins/crossvault_macos/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault/example/windows/flutter/ephemeral/.plugin_symlinks/crossvault_windows/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault/example/windows/flutter/ephemeral/.plugin_symlinks/crossvault_windows/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault/example/windows/flutter/ephemeral/.plugin_symlinks/crossvault_windows/build" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault_android/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault_android/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault_android/build" />

@@ -19,7 +19,6 @@ This repository contains multiple packages that work together to provide a feder
 
 | Package | Description | Version |
 |---------|-------------|---------|
-| [crossvault]() | The main app-facing package | 1.0.0 |
 | [crossvault_platform_interface](../crossvault_platform_interface) | Common platform interface | 1.0.0 |
 | [crossvault_android](../crossvault_android) | Android implementation | 1.0.0 |
 | [crossvault_ios](../crossvault_ios) | iOS implementation | 1.0.0 |

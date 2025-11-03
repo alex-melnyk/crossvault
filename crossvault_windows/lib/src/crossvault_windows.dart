@@ -73,9 +73,7 @@ class CrossvaultWindows extends CrossvaultPlatform {
 
     // Add Windows-specific options
     if (options is WindowsOptions) {
-      if (options.prefix != null) {
-        args['prefix'] = options.prefix;
-      }
+      args['prefix'] = options.prefix;
       args['persist'] = options.persist.name;
       args['useTPM'] = options.useTPM;
     }

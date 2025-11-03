@@ -33,9 +33,9 @@
     },
     {
       "name": "crossvault_platform_interface",
-      "rootUri": "../../crossvault_platform_interface",
+      "rootUri": "file:///Users/melnyk/.pub-cache/hosted/pub.dev/crossvault_platform_interface-1.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.6"
     },
     {
       "name": "fake_async",
@@ -173,7 +173,7 @@
       "name": "crossvault_android",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.6"
     }
   ],
   "generator": "pub",

@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "crossvault_android",
-      "version": "0.0.1",
+      "version": "1.0.0",
       "dependencies": [
         "crossvault_platform_interface",
         "flutter"
@@ -42,7 +42,7 @@
     },
     {
       "name": "crossvault_platform_interface",
-      "version": "0.0.1",
+      "version": "1.0.0",
       "dependencies": [
         "flutter",
         "plugin_platform_interface"

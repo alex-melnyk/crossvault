@@ -9,6 +9,21 @@
       <excludeFolder url="file://$MODULE_DIR$/crossvault/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/crossvault/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_android/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_android/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_android/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_ios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_macos/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_macos/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_macos/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_platform_interface/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_platform_interface/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_platform_interface/build" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_windows/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_windows/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/crossvault_windows/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

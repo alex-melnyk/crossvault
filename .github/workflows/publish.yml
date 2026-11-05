@@ -1,53 +1,32 @@
 name: Publish to pub.dev
 
+# Each package is released by its own tag: <package>-v<version>
+# e.g. crossvault-v1.0.2, crossvault_ios-v1.0.1
 on:
   push:
     tags:
-      - 'v*.*.*'  # Triggers on version tags like v1.0.0
+      - 'crossvault*-v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        package:
-          - crossvault_platform_interface
-          - crossvault_android
-          - crossvault_ios
-          - crossvault_macos
-          - crossvault_windows
-          - crossvault
-    
+    environment: pub.dev
+    permissions:
+      id-token: write # pub.dev OIDC authentication
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v4
+      - name: Resolve package from tag
+        id: pkg
+        run: echo "dir=${GITHUB_REF_NAME%-v*}" >> "$GITHUB_OUTPUT"
+      - uses: dart-lang/setup-dart@v1 # configures the OIDC token for pub
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.0'
-          channel: 'stable'
-      
-      - name: Install dependencies
-        working-directory: ${{ matrix.package }}
+          channel: stable
+          flutter-version: 3.38.10
+      - working-directory: ${{ steps.pkg.outputs.dir }}
         run: flutter pub get
-      
-      - name: Analyze code
-        working-directory: ${{ matrix.package }}
+      - working-directory: ${{ steps.pkg.outputs.dir }}
         run: flutter analyze
-      
-      - name: Run tests
-        working-directory: ${{ matrix.package }}
-        run: flutter test
-        continue-on-error: true  # Continue even if tests fail
-      
-      - name: Dry run publish
-        working-directory: ${{ matrix.package }}
-        run: flutter pub publish --dry-run
-      
-      - name: Publish to pub.dev
-        working-directory: ${{ matrix.package }}
+      - run: git status --short
+      - working-directory: ${{ steps.pkg.outputs.dir }}
         run: flutter pub publish --force
-        env:
-          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
